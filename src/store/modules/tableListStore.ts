@@ -12,34 +12,25 @@ export const tableListStore = defineStore('tableListStore', {
     getters: {},
     //  左侧菜单收缩开启
     actions: {
-
         // 添加tab
         upMenuTabList(payload: any) {
             // 选中的path提交到路由
             this.activeKey = payload.menuItem.keyPath
             router.push({path: this.activeKey[0]})
 
-            // 点击的菜单是否已经打开
-            let obj = this.tabList.map((item) => {
-
-                if (item.key !== payload.menuItem.key && item.key) {
-                    return {
-                        title: payload.menuItem.item.title,
-                        key: payload.menuItem.key,
-                        path: payload.menuItem.key,
-                        closable: true
-                    }
-                }
-            })
-            let obj2: any = {}
-            if (obj[0]) {
-                this.tabList.push(obj[0])
-                // 重新排序
-                this.tabList = this.tabList.reduce(function (item: any, next: any) {
-                    obj2[next.key] ? '' : (obj2[next.key] = true && item.push(next))
-                    return item
-                }, [])
+            // 判断是否存在tab
+            if (this.tabList.some(item => {
+                return item.key === payload.menuItem.key
+            })) {
+                return
             }
+            // 如果不存在则添加tab
+            this.tabList.push({
+                title: payload.menuItem.item.title,
+                key: payload.menuItem.key,
+                path: payload.menuItem.key,
+                closable: true
+            })
 
         },
         setActiveTab(payload: any) {
