@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios'
 import router from '@/router/index'
 
 const service = axios.create({
-  // baseURL:'数据请求地址',
+  baseURL:'http://localhost:8080',
   timeout: 10000 // 超时时间
 })
 
@@ -65,4 +65,4 @@ service.interceptors.response.use(
   }
 )
 
-export default axios
+export default service
